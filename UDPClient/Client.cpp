@@ -99,7 +99,6 @@ int main()
             printf("socket failed with error: %ld\n", WSAGetLastError());
             WSACleanup();
             return 3;
-
         }
         iResult = connect(client_socket, ptr->ai_addr, (int)ptr->ai_addrlen);
         if (iResult == SOCKET_ERROR) {

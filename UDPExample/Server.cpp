@@ -138,7 +138,7 @@ int main() {
                 double totalPrice = 0;
                 for (const string& item : items) 
                 {
-                    // проверка на наличие позиции
+
                     auto it = menu.find(item);
                     if (it != menu.end()) 
                     {
