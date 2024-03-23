@@ -71,6 +71,7 @@ DWORD WINAPI Receiver(void* param)
             {
                 cout << "Время ожидания составит " << totalCookTime << " секунд, с вас - " << price << "$" << endl;
             }
+
             else
             {
                 cout << "Ваш заказ готов!" << endl;
