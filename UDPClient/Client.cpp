@@ -31,6 +31,7 @@ DWORD WINAPI Receiver(void* param)
         }
 
         response[result] = '\0';
+        string ans = response;
 
         double allMoney = 0;
         int allTime = 0;
@@ -60,7 +61,7 @@ DWORD WINAPI Receiver(void* param)
                 }
             }
             else{
-                cout << response << endl;
+                cout << ans << endl;
             }
         }
     }
