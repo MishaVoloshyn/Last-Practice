@@ -147,31 +147,19 @@ int main() {
                         orders_queue.push_back({ item, it->second.cookTime });
                     }
                 }
-                t = totalCookTime;
-                // Отправляем информацию о времени и цене
-                string mes = to_string(totalCookTime) + " " + to_string(totalPrice);
-                send(s, mes.c_str(), mes.length(), 0);
-                //send(s, to_string(totalCookTime).c_str(), sizeof(totalCookTime), 0);   
-  
-            }
-        }
 
-        // Обработка заказов в очереди
-        string ready = "Your order is ready!";
-        if (!orders_queue.empty()) 
-        {
-            cout << "Preparing order: ";
-            for (int i = 0; i < orders_queue.size(); i++)
-            {
-                cout << orders_queue[i].first << " ";
-            }
-            cout << endl;
+                if (totalCookTime == 0)
+                {
+                    string txt = "Извините, у нас нет такой позиции. Выберите что-то другое";
+                    send(s, txt.c_str(), txt.length(), 0);
+                }
+                else
+                {
+                    string mes = to_string(totalCookTime) + " " + to_string(totalPrice);
+                    send(s, mes.c_str(), mes.length(), 0);
+                }
 
-            //в миллесекундах 
-            Sleep(t * 1000);
-            send(client_socket[currentClientIndex], ready.c_str(), 100, 0);
-            orders_queue.erase(orders_queue.begin()); 
-            cout << "Order is ready" << endl;
+            }
         }
     }
 

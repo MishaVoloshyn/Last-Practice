@@ -1,91 +1,69 @@
 ﻿#define WIN32_LEAN_AND_MEAN
-
 #include <ws2tcpip.h>
 #include <windows.h>
 #include <iostream>
-#include <queue>
 #include <fstream>
-#include <sstream>
 #include <string>
-
 using namespace std;
-
 #pragma comment (lib, "Ws2_32.lib")
-
 #define DEFAULT_BUFLEN 4096
-
 #define SERVER_IP "127.0.0.1"
 #define DEFAULT_PORT "8888"
 
 SOCKET client_socket;
-bool Wait = false;
 
-// Очередь для хранения сообщений от клиентов
-queue<string> messages_queue;
-
-bool isOrderInProgress = false;
 
 DWORD WINAPI Sender(void* client_socket_ptr)
 {
-
-    while (true)
-    {
+    while (true){
         char query[DEFAULT_BUFLEN];
         cin.getline(query, DEFAULT_BUFLEN);
         send(client_socket, query, strlen(query), 0);
-
     }
 }
 DWORD WINAPI Receiver(void* param)
 {
-    while (true)
-    {
+    while (true){
         char response[DEFAULT_BUFLEN];
         int result = recv(client_socket, response, DEFAULT_BUFLEN, 0);
         if (result == SOCKET_ERROR) {
             return 1;
         }
+
         response[result] = '\0';
 
-        int totalCookTime = 0;
-        double price = 0;
+        double allMoney = 0;
+        int allTime = 0;
 
-        char* spacePos = strchr(response, ' '); 
+        char* spacePos = strchr(response, ' ');
         bool isZero = false;
 
-        if (spacePos != nullptr)
-        {
-            *spacePos = '\0'; 
-            spacePos++; 
+        if (spacePos != nullptr){
+            *spacePos = '\0';
+            spacePos++;
 
-            totalCookTime = atoi(response); 
-            price = atof(spacePos); 
+            if (isdigit(response[0])){
+                allTime = atoi(response);
+                allMoney = atof(spacePos);
 
-           
-            if (totalCookTime == 0 || price == 0)
-            {
-                isZero = true; 
+                if (allTime == 0 || allMoney == 0){
+                    isZero = true;
+                }
+
+                else{
+                    cout << "Время ожидания составит " << allTime << " секунд, с вас - " << allMoney << "$" << endl;
+                }
+
+                if (!isZero){
+                    Sleep(allTime * 1000);
+                    cout << "Ваш заказ готов!" << endl;
+                }
             }
-
-            if (totalCookTime > 0)
-            {
-                cout << "Время ожидания составит " << totalCookTime << " секунд, с вас - " << price << "$" << endl;
+            else{
+                cout << response << endl;
             }
-
-            else
-            {
-                cout << "Ваш заказ готов!" << endl;
-            }
-
-            if (isZero)
-            {
-                cout << "Извините, данной позиции нет в меню. Пожалуйста, выберите что-то другое." << endl;
-            }
-            
         }
-  
     }
-
 }
 
 int main()
@@ -121,6 +99,7 @@ int main()
             printf("socket failed with error: %ld\n", WSAGetLastError());
             WSACleanup();
             return 3;
+
         }
         iResult = connect(client_socket, ptr->ai_addr, (int)ptr->ai_addrlen);
         if (iResult == SOCKET_ERROR) {
