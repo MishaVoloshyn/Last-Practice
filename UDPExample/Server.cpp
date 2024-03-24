@@ -9,7 +9,7 @@ using namespace std;
 #define MAX_CLIENTS 30
 #define DEFAULT_BUFLEN 4096
 
-#pragma comment(lib, "ws2_32.lib")
+#pragma comment(lib, "ws2_32.lib ")
 #pragma warning(disable:4996)
 
 SOCKET server_socket;

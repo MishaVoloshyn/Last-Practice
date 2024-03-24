@@ -70,7 +70,7 @@ DWORD WINAPI Receiver(void* param)
 int main()
 {
     system("title Client");
-    setlocale(LC_CTYPE, "Russian");
+    setlocale(LC_CTYPE, "Russian ");
     WSADATA wsaData;
     int iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
     if (iResult != 0)
